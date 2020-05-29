@@ -1,8 +1,7 @@
 <template>
   <div class="signup">
-    <h2>Sign up</h2>
-    <v-btn color="primary" @click="googleLogin()">Google Login</v-btn>
-    <p v-show="showError">{{errorMessage}}</p>
+    <v-btn color="white text--primary" text depressed @click="googleLogin()">Login</v-btn>
+    <p v-show="showError">Signup</p>
   </div>
 </template>
 
@@ -14,22 +13,11 @@ export default {
   name: 'Signup',
   data () {
     return {
-      username: '',
-      password: '',
       errorMessage: null,
       showError: null
     }
   },
   methods: {
-    emailLogin () {
-      firebase.auth().createUserWithEmailAndPassword(this.username, this.password)
-        .then(user => {
-          router.push('/home')
-        }).catch(error => {
-          this.errorMessage = error.message
-          this.showError = true
-        })
-    },
     googleLogin () {
       const provider = new firebase.auth.GoogleAuthProvider()
 
