@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
+    <v-app-bar app color="light-blue darken-1" dark>
       <v-spacer></v-spacer>
       <v-toolbar-title>
         <h3>NITIC CTF</h3>
