@@ -1,11 +1,9 @@
 <template>
   <v-app>
     <v-app-bar app color="light-blue darken-1" dark>
-      <v-spacer></v-spacer>
-      <v-toolbar-title class="d-block ma-auto align-center center">
+      <v-list-item-title>
         <h3>NITIC CTF</h3>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
+      </v-list-item-title>
       <Signup></Signup>
     </v-app-bar>
 
@@ -30,3 +28,9 @@ export default {
   })
 }
 </script>
+
+<style>
+.align-center {
+  text-align: center;
+}
+</style>

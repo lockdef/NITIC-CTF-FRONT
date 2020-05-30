@@ -1,6 +1,6 @@
 <template>
   <div class="signup">
-    <v-btn color="white text--primary" text depressed @click="googleLogin()">Login</v-btn>
+    <v-btn color="white text--primary d-inline" text depressed @click="googleLogin()">Login</v-btn>
     <p v-show="showError">Signup</p>
   </div>
 </template>
