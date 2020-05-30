@@ -1,36 +1,36 @@
 <template>
-  <div class="home">
-    <v-container class="mx-8">
-      <h1 class="mt-4 display-3">Web</h1>
-      <v-row>
-        <v-col cols="12" sm="6" md="4" lg="3">
-          <v-hover v-slot:default="{ hover }">
-            <a class="d-block">
-              <v-card :elevation="hover ? 12 : 2" color="teal darken-1" class="mt-5" outlined>
-                <v-list-item>
-                  <v-list-item-content>
-                    <v-list-item-title class="white--text headline text-center">Nihao</v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-card>
-            </a>
-          </v-hover>
-        </v-col>
-      </v-row>
-      <Signup></Signup>
-    </v-container>
+  <div id="home">
+    <div class="py-12 px-auto blue lighten-5">
+      <h1 class="align-center">NITIC CTFにようこそ</h1>
+      <p class="align-center">不定期にCTFコンテストを開催します</p>
+      <h1></h1>
+    </div>
+    <div class="mt-4">
+      <h1 class="align-center">コンテスト一覧</h1>
+      <v-list v-for="contest in contests" :key="contest">
+        <v-hover v-slot:default="{ hover }">
+          <v-card
+            :elevation="hover ? 12 : 2"
+            :to="contest.url"
+            class="mx-auto pa-4 mt-2 light-green darken-3"
+            max-width="400"
+            outlined
+          >
+            <v-list-item-title class="align-center white--text" v-text="contest.title"></v-list-item-title>
+          </v-card>
+        </v-hover>
+      </v-list>
+    </div>
   </div>
 </template>
-
 <script>
-// @ is an alias to /src
-
-import Signup from '@/components/Signup'
-
 export default {
   name: 'Home',
-  components: {
-    Signup
+  data () {
+    return {
+      contests: [{ title: 'NITIC CTF CONTEST 001', url: 'contest' },
+        { title: 'NITIC CTF CONTEST 002', url: 'contest' }]
+    }
   }
 }
 </script>
