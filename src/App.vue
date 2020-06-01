@@ -1,9 +1,8 @@
 <template>
   <v-app>
     <v-app-bar app color="light-blue darken-1" dark>
-      <v-list-item-title>
-        <h3>NITIC CTF</h3>
-      </v-list-item-title>
+      <h3>NITIC CTF</h3>
+      <v-spacer></v-spacer>
       <Signup></Signup>
     </v-app-bar>
 
