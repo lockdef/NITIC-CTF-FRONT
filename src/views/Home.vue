@@ -11,7 +11,6 @@
         <v-hover v-slot:default="{ hover }">
           <v-card
             :elevation="hover ? 12 : 2"
-            :to="contest.url"
             class="mx-auto pa-4 mt-2 light-green darken-3"
             max-width="400"
             outlined
@@ -24,13 +23,27 @@
   </div>
 </template>
 <script>
+import firebase from 'firebase'
+
 export default {
   name: 'Home',
   data () {
     return {
-      contests: [{ title: 'NITIC CTF CONTEST 001', url: 'contest' },
-        { title: 'NITIC CTF CONTEST 002', url: 'contest' }]
+      contests: []
     }
+  },
+  created () {
+    firebase.firestore().collection('contests').get().then((query) => {
+      const buff = []
+      query.forEach((doc) => {
+        buff.push({ title: doc.data().title })
+        console.log(doc)
+      })
+      this.contests = buff
+    }).catch((error) => {
+      console.log(error)
+    })
   }
 }
+
 </script>
