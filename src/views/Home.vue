@@ -37,7 +37,6 @@ export default {
       const buff = []
       query.forEach((doc) => {
         buff.push({ title: doc.data().title })
-        console.log(doc)
       })
       this.contests = buff
     }).catch((error) => {
