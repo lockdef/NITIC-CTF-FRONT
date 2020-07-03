@@ -7,16 +7,19 @@
     </div>
     <div class="mt-4">
       <h1 class="align-center">コンテスト一覧</h1>
-      <v-list v-for="contest in contests" :key="contest">
+      <v-list>
         <v-hover v-slot:default="{ hover }">
+          <router-link to="/contest">
           <v-card
             :elevation="hover ? 12 : 2"
             class="mx-auto pa-4 mt-2 light-green darken-3"
             max-width="400"
             outlined
+
           >
-            <v-list-item-title class="align-center white--text" v-text="contest.title"></v-list-item-title>
+            <v-list-item-title class="align-center white--text">NITIC CTF CONTEST 001</v-list-item-title>
           </v-card>
+          </router-link>
         </v-hover>
       </v-list>
     </div>

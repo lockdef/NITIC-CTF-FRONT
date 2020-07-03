@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Content from '../views/Contest.vue'
+import Form from '../views/Form.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -22,6 +23,11 @@ const routes = [
     path: '/contest',
     name: 'Contest',
     component: Content
+  },
+  {
+    path: '/form',
+    name: 'Form',
+    component: Form
   }
 ]
 
