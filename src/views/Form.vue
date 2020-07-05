@@ -1,104 +1,71 @@
 <template>
-  <!-- <v-container>
-    <form>
-      <v-text-field
-        v-model="name"
-        :error-messages="nameErrors"
-        label="Title"
-        required
-        @input="$v.name.$touch()"
-        @blur="$v.name.$touch()"
-      ></v-text-field>
-      <v-text-field
-        v-model="email"
-        :error-messages="emailErrors"
-        label="Problem Sentence"
-        required
-        @input="$v.email.$touch()"
-        @blur="$v.email.$touch()"
-      ></v-text-field>
-      <v-select
-        v-model="select"
-        :items="items"
-        :error-messages="selectErrors"
-        label="Type"
-        required
-        @change="$v.select.$touch()"
-        @blur="$v.select.$touch()"
-      ></v-select>
-
-      <v-btn class="mr-4" @click="submit">submit</v-btn>
-      <v-btn @click="clear">clear</v-btn>
-    </form>
-  </v-container>-->
   <v-container>
-    <h2>問題投稿ページ</h2>
-    <v-form class="mx-5">
-      <v-text-field v-model="title" label="Title" required></v-text-field>
-      <v-textarea v-model="problemText" label="Probelem Text" auto-grow required></v-textarea>
-      <v-text-field v-model="title" label="Type" :items="items" required></v-text-field>
-      <v-btn @click="submit">Submit</v-btn>
-    </v-form>
+    <h1>問題投稿フォーム</h1>
+    <h3>タイトル</h3>
+    <v-text-field placeholder="Title" v-model="problemData.problemTitle" />
+    <h3>問題文（Markdown記法）</h3>
+    <v-textarea placeholder="ProblemText" v-model="problemData.problemText" />
+    <h3>難易度</h3>
+    <v-text-field placeholder="Difficulty" v-model="problemData.difficulty" />
+    <h3>点数</h3>
+    <v-text-field placeholder="Score" v-model="problemData.score" />
+    <h3>Type</h3>
+    <v-select :items="problemTypes" v-model="problemData.type" />
+    <h3>Flag（ フォーマット：nitic_ctf{flag} ）</h3>
+    <v-text-field placeholder="Flag" v-model="problemData.flag" />
+    <v-btn color="primary" @click="submit">Submit</v-btn>
   </v-container>
 </template>
 
 <script>
-import { validationMixin } from 'vuelidate'
-import { required } from 'vuelidate/lib/validators'
+import firebase from 'firebase'
 
 export default {
-  mixins: [validationMixin],
-
-  validations: {
-    Title: { required },
-    problemText: { required },
-    select: { required }
-  },
-
-  data: () => ({
-    title: '',
-    problemText: '',
-    select: null,
-    items: ['Web', 'Crypto', 'Pwn', 'Misc']
-  }),
-
-  computed: {
-    checkboxErrors () {
-      const errors = []
-      if (!this.$v.checkbox.$dirty) return errors
-      !this.$v.checkbox.checked && errors.push('You must agree to continue!')
-      return errors
-    },
-    selectErrors () {
-      const errors = []
-      if (!this.$v.select.$dirty) return errors
-      !this.$v.select.required && errors.push('Type is required')
-      return errors
-    },
-    nameErrors () {
-      const errors = []
-      if (!this.$v.name.$dirty) return errors
-      !this.$v.name.required && errors.push('Title is required.')
-      return errors
-    },
-    emailErrors () {
-      const errors = []
-      if (!this.$v.email.$dirty) return errors
-      !this.$v.email.required && errors.push('Problem Sentence is required')
-      return errors
+  data () {
+    return {
+      problemData: {
+        contestName: 'contest_1',
+        problemTitle: null,
+        problemText: null,
+        difficulty: null,
+        score: null,
+        type: 'Web',
+        writer: null,
+        flag: 'nitic_ctf{}'
+      }
     }
   },
-
+  computed: {
+    problemTypes () {
+      return [
+        'Web',
+        'Rev',
+        'Misc'
+      ]
+    }
+  },
+  mounted () {
+    this.isLogined()
+  },
   methods: {
     submit () {
-      this.$v.$touch()
+      this.axios.post('http://ctf.waku-waku-club.com/api/problem/add', this.problemData)
+        .then(response => {
+          alert('投稿完了しました')
+          this.$router.push('/')
+        })
+        .catch(response => {
+          console.log(response)
+        })
     },
-    clear () {
-      this.$v.$reset()
-      this.name = ''
-      this.email = ''
-      this.select = null
-      this.checkbox = false
+    isLogined () {
+      firebase.auth().onAuthStateChanged(
+        function (user) {
+          if (user) {
+            this.problemData.writer = user.uid
+          }
+        }.bind(this)
+      )
     }
   }
 }

@@ -1,14 +1,15 @@
 <template>
   <div class="contest">
     <v-container>
-      <h1 class="mt-4 display-2">Web</h1>
+      <div v-for="type in problemTypes" :key="type">
+      <h1 class="mt-4 display-2">{{ type }}</h1>
       <v-row>
         <v-col
           cols="12"
           sm="6"
           md="4"
           lg="3"
-          v-for="problem in problemsList.Web"
+          v-for="problem in problemsList[type]"
           :key="problem.id"
         >
           <v-btn
@@ -22,48 +23,7 @@
           </v-btn>
         </v-col>
       </v-row>
-      <h1 class="mt-4 display-2">Rev</h1>
-      <v-row>
-        <v-col
-          cols="12"
-          sm="6"
-          md="4"
-          lg="3"
-          v-for="problem in problemsList.Rev"
-          :key="problem.id"
-        >
-          <v-btn
-            @click="showModal(problem)"
-            color="light-green darken-3"
-            width="100%"
-          >
-            <span class="white--text headline">
-              {{ problem.problemTitle }}
-            </span>
-          </v-btn>
-        </v-col>
-      </v-row>
-      <h1 class="mt-4 display-2">Misc</h1>
-      <v-row>
-        <v-col
-          cols="12"
-          sm="6"
-          md="4"
-          lg="3"
-          v-for="problem in problemsList.Misc"
-          :key="problem.id"
-        >
-          <v-btn
-            @click="showModal(problem)"
-            color="light-green darken-3"
-            width="100%"
-          >
-            <span class="white--text headline">
-              {{ problem.problemTitle }}
-            </span>
-          </v-btn>
-        </v-col>
-      </v-row>
+      </div>
       <v-card class="mt-5">
         <v-simple-table>
           <template v-slot:default>
@@ -75,6 +35,11 @@
               </tr>
             </thead>
             <tbody>
+              <tr class="user-rank">
+                <td>{{ userRank.rank }}</td>
+                <td>you</td>
+                <td>{{ userRank.score }}</td>
+              </tr>
               <tr v-for="user in ranking" :key="user.rank">
                 <td>{{ user.rank }}</td>
                 <td>{{ user.username }}</td>
@@ -116,6 +81,7 @@
 <script>
 // @ is an alias to /src
 import markdownIt from 'markdown-it'
+import firebase from 'firebase'
 
 export default {
   name: 'Contest',
@@ -125,8 +91,11 @@ export default {
       flag: null,
       currentProblem: null,
       problemsList: null,
+      problemTypes: null,
       result: null,
-      ranking: null
+      ranking: null,
+      uid: null,
+      userRank: null
     }
   },
   computed: {
@@ -140,14 +109,16 @@ export default {
     }
   },
   mounted () {
+    this.isLogined()
     this.axios
-      .get('http://127.0.0.1:5000/problem/list/contest_1')
+      .get('http://ctf.waku-waku-club.com/api/problem/list/contest_1')
       .then(response => {
         this.problemsList = response.data
+        this.problemTypes = Object.keys(this.problemsList).reverse()
       })
       .catch(response => console.log(response))
     this.axios
-      .get('http://127.0.0.1:5000/standings/contest_1')
+      .get('http://ctf.waku-waku-club.com/api/standings/contest_1')
       .then(response => {
         this.ranking = response.data
       })
@@ -160,11 +131,27 @@ export default {
       this.result = null
       this.flag = null
     },
+    isLogined () {
+      firebase.auth().onAuthStateChanged(
+        function (user) {
+          if (user) {
+            this.uid = user.uid
+            this.axios.get('http://ctf.waku-waku-club.com/api/score/contest_1/' + this.uid)
+              .then(response => {
+                this.userRank = response.data
+              })
+            console.log(this.userRank)
+          }
+        }.bind(this)
+      )
+    },
     problemSubmit (problemId) {
       this.axios
-        .post('http://127.0.0.1:5000/problem/submit', {
-          problem_id: problemId,
-          flag: this.flag
+        .post('http://ctf.waku-waku-club.com/api/problem/submit', {
+          contestName: 'contest_1',
+          problemId: problemId,
+          flag: this.flag,
+          uid: this.uid
         })
         .then(response => {
           this.result = response.data.AC
@@ -185,5 +172,8 @@ export default {
   color: #fff;
   background-color: #00c853;
   padding: 1px 5px;
+}
+.user-rank {
+  background-color: #eee;
 }
 </style>

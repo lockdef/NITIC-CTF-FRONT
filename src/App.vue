@@ -5,7 +5,6 @@
       <v-spacer></v-spacer>
       <Signup></Signup>
     </v-app-bar>
-
     <v-content>
       <router-view />
     </v-content>
