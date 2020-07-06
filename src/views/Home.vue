@@ -3,22 +3,29 @@
     <div class="py-12 px-auto blue lighten-5">
       <h1 class="align-center">NITIC CTFにようこそ</h1>
       <p class="align-center">不定期にCTFコンテストを開催します</p>
-      <h1></h1>
+      <h3 class="align-center">！注意！</h3>
+      <p class="align-center">
+        このコンテストは試験的かつほとんどの問題が初心者向けです。<br />
+        サイト自体のバグ、問題の欠陥などがあった場合、discordの質問チャンネルにお願いします！<br />
+        問題が気に食わない、解けない、自分が一位ではない、などについてはTwitterで書いてください！<br />
+        このコンテストはNITICとついていますが、茨城高専の公式のコンテストではなく、学生有志でやっているものです。<br />
+      </p>
     </div>
     <div class="mt-4">
       <h1 class="align-center">コンテスト一覧</h1>
       <v-list>
         <v-hover v-slot:default="{ hover }">
           <router-link to="/contest">
-          <v-card
-            :elevation="hover ? 12 : 2"
-            class="mx-auto pa-4 mt-2 light-green darken-3"
-            max-width="400"
-            outlined
-
-          >
-            <v-list-item-title class="align-center white--text">NITIC CTF CONTEST 001</v-list-item-title>
-          </v-card>
+            <v-card
+              :elevation="hover ? 12 : 2"
+              class="mx-auto pa-4 mt-2 light-green darken-3"
+              max-width="400"
+              outlined
+            >
+              <v-list-item-title class="align-center white--text"
+                >NITIC CTF CONTEST 001</v-list-item-title
+              >
+            </v-card>
           </router-link>
         </v-hover>
       </v-list>
@@ -36,16 +43,20 @@ export default {
     }
   },
   created () {
-    firebase.firestore().collection('contests').get().then((query) => {
-      const buff = []
-      query.forEach((doc) => {
-        buff.push({ title: doc.data().title })
+    firebase
+      .firestore()
+      .collection('contests')
+      .get()
+      .then(query => {
+        const buff = []
+        query.forEach(doc => {
+          buff.push({ title: doc.data().title })
+        })
+        this.contests = buff
       })
-      this.contests = buff
-    }).catch((error) => {
-      console.log(error)
-    })
+      .catch(error => {
+        console.log(error)
+      })
   }
 }
-
 </script>
