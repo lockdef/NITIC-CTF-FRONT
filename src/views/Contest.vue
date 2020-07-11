@@ -80,7 +80,7 @@
         </v-dialog>
       </v-container>
     </div>
-    <div v-else>
+    <div v-if="isLogin === false">
        <v-container>
          <h1 class="align-center">ログインしてください</h1>
          <p class="align-center">ログインにはGoogleアカウントが必要になります。<br />
@@ -108,7 +108,7 @@ export default {
       ranking: null,
       uid: null,
       userRank: null,
-      isLogin: false
+      isLogin: null
     }
   },
   computed: {
@@ -157,6 +157,8 @@ export default {
               .then(response => {
                 this.userRank = response.data
               })
+          } else {
+            this.isLogin = false
           }
         }.bind(this)
       )

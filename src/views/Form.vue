@@ -38,8 +38,16 @@ export default {
   computed: {
     problemTypes () {
       return [
+        'Crypto',
         'Web',
-        'Rev',
+        'Reversing',
+        'Pwn',
+        'Forensic',
+        'Network',
+        'PPC',
+        'Steganography',
+        'Recon',
+        'Trivia',
         'Misc'
       ]
     }
