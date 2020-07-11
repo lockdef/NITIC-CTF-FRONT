@@ -51,12 +51,13 @@ export default {
         .auth()
         .signInWithPopup(provider)
         .then(result => {
-          this.axios.post('http://ctf.waku-waku-club.com/api/user/add',
+          this.axios.post('https://ctf.waku-waku-club.com/api/user/add',
             {
               uid: result.user.uid,
               username: result.user.displayName
             })
           this.isLogined()
+          location.reload()
         })
         .catch(error => {
           console.log(error)
@@ -81,10 +82,11 @@ export default {
     signout () {
       firebase.auth().signOut()
       this.isLogined()
+      location.reload()
     },
     changeDisplayName () {
       this.changeName = prompt('変更したいユーザー名を入力してください。', this.displayName)
-      this.axios.post('http://ctf.waku-waku-club.com/api/user/change',
+      this.axios.post('https://ctf.waku-waku-club.com/api/user/change',
         {
           uid: this.uid,
           username: this.changeName
@@ -96,9 +98,10 @@ export default {
         .catch(response => {
           alert('変更失敗')
         })
+      location.reload()
     },
     getUsername () {
-      this.axios.get('http://ctf.waku-waku-club.com/api/user/' + this.uid)
+      this.axios.get('https://ctf.waku-waku-club.com/api/user/' + this.uid)
         .then(response => {
           this.displayName = response.data.username
         })

@@ -5,7 +5,13 @@ node_modules
 # local env files
 .env.local
 .env.*.local
-.env
+.env.*
+
+# firestore
+.firebaserc
+hosting.*
+firebase.json
+
 # Log files
 npm-debug.log*
 yarn-debug.log*

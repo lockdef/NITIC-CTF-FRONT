@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app color="light-blue darken-1" dark>
-      <h3>NITIC CTF</h3>
+      <router-link to="/" class="logo"><h3>NITIC CTF</h3></router-link>
       <v-spacer></v-spacer>
       <Signup></Signup>
     </v-app-bar>
@@ -30,5 +30,12 @@ export default {
 <style>
 .align-center {
   text-align: center;
+}
+</style>
+
+<style scoped>
+.logo {
+  color: white;
+  text-decoration: none;
 }
 </style>

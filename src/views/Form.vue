@@ -24,7 +24,7 @@ export default {
   data () {
     return {
       problemData: {
-        contestName: 'contest_1',
+        contestName: this.$route.params.id,
         problemTitle: null,
         problemText: null,
         difficulty: null,
@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     submit () {
-      this.axios.post('http://ctf.waku-waku-club.com/api/problem/add', this.problemData)
+      this.axios.post('https://ctf.waku-waku-club.com/api/problem/add', this.problemData)
         .then(response => {
           alert('投稿完了しました')
           this.$router.push('/')

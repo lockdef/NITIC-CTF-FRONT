@@ -15,7 +15,7 @@
       <h1 class="align-center">コンテスト一覧</h1>
       <v-list>
         <v-hover v-slot:default="{ hover }">
-          <router-link to="/contest">
+          <router-link to="/contest/contest_1">
             <v-card
               :elevation="hover ? 12 : 2"
               class="mx-auto pa-4 mt-2 light-green darken-3"
