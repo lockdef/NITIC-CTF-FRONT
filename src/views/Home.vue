@@ -13,9 +13,9 @@
     </div>
     <div class="mt-4">
       <h1 class="align-center">コンテスト一覧</h1>
-      <v-list>
+      <v-list v-for="(contest_name, index) in contests" :key="index">
         <v-hover v-slot:default="{ hover }">
-          <router-link to="/contest/contest_1">
+          <router-link :to="`/contest/${contest_name}`">
             <v-card
               :elevation="hover ? 12 : 2"
               class="mx-auto pa-4 mt-2 light-green darken-3"
@@ -23,7 +23,7 @@
               outlined
             >
               <v-list-item-title class="align-center white--text"
-                >NITIC CTF CONTEST 001</v-list-item-title
+                >{{ contest_name }}</v-list-item-title
               >
             </v-card>
           </router-link>
@@ -41,6 +41,12 @@ export default {
     return {
       contests: []
     }
+  },
+  mounted () {
+    this.axios.get('https://api.waku-waku-club.com/api/contests')
+      .then(response => {
+        this.contests = response.data
+      })
   },
   created () {
     firebase
