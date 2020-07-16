@@ -124,14 +124,14 @@ export default {
   mounted () {
     this.isLogined()
     this.axios
-      .get('https://ctf.waku-waku-club.com/api/problem/list/' + this.$route.params.id)
+      .get('https://api.waku-waku-club.com/api/problem/list/' + this.$route.params.id)
       .then(response => {
         this.problemsList = response.data
         this.problemTypes = Object.keys(this.problemsList).reverse()
       })
       .catch(response => console.log(response))
     this.axios
-      .get('https://ctf.waku-waku-club.com/api/standings/' + this.$route.params.id)
+      .get('https://api.waku-waku-club.com/api/standings/' + this.$route.params.id)
       .then(response => {
         this.ranking = response.data
       })
@@ -152,7 +152,7 @@ export default {
             this.isLogin = true
             this.axios
               .get(
-                'https://ctf.waku-waku-club.com/api/score/contest_1/' + this.uid
+                'https://api.waku-waku-club.com/api/score/contest_1/' + this.uid
               )
               .then(response => {
                 this.userRank = response.data
@@ -165,7 +165,7 @@ export default {
     },
     problemSubmit (problemId) {
       this.axios
-        .post('https://ctf.waku-waku-club.com/api/problem/submit', {
+        .post('https://api.waku-waku-club.com/api/problem/submit', {
           contestName: this.$route.params.id,
           problemId: problemId,
           flag: this.flag,

@@ -51,7 +51,7 @@ export default {
         .auth()
         .signInWithPopup(provider)
         .then(result => {
-          this.axios.post('https://ctf.waku-waku-club.com/api/user/add',
+          this.axios.post('https://api.waku-waku-club.com/api/user/add',
             {
               uid: result.user.uid,
               username: result.user.displayName
@@ -86,7 +86,7 @@ export default {
     },
     changeDisplayName () {
       this.changeName = prompt('変更したいユーザー名を入力してください。', this.displayName)
-      this.axios.post('https://ctf.waku-waku-club.com/api/user/change',
+      this.axios.post('https://api.waku-waku-club.com/api/user/change',
         {
           uid: this.uid,
           username: this.changeName
@@ -101,7 +101,7 @@ export default {
       location.reload()
     },
     getUsername () {
-      this.axios.get('https://ctf.waku-waku-club.com/api/user/' + this.uid)
+      this.axios.get('https://api.waku-waku-club.com/api/user/' + this.uid)
         .then(response => {
           this.displayName = response.data.username
         })

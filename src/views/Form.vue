@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     submit () {
-      this.axios.post('https://ctf.waku-waku-club.com/api/problem/add', this.problemData)
+      this.axios.post('https://api.waku-waku-club.com/api/problem/add', this.problemData)
         .then(response => {
           alert('投稿完了しました')
           this.$router.push('/')
