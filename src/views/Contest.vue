@@ -38,10 +38,10 @@
               <tbody>
                 <tr class="user-rank">
                   <td>{{ userRank.rank }}</td>
-                  <td>you</td>
+                  <td>{{ userRank.username }}</td>
                   <td>{{ userRank.score }}</td>
                 </tr>
-                <tr v-for="user in ranking" :key="user.rank">
+                <tr v-for="user in ranking.filter( user => user.username !== userRank.username )" :key="user.rank">
                   <td>{{ user.rank }}</td>
                   <td>{{ user.username }}</td>
                   <td>{{ user.score }}</td>
